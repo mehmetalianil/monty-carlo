@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 Created on 15.05.2011
 
@@ -8,6 +10,12 @@ The Monte-Carlo Simulation Engine
 
 import numpy as num
 import profile
+import pylab
+from mpl_toolkits.mplot3d import Axes3D
+import math
+import matplotlib.pyplot as plt     # Plotting
+import profile                      # For performance analysis
+
 
 __author__ = "Mehmet Ali Anil"
 __copyright__ = ""
@@ -19,6 +27,44 @@ __email__ = "anilm@itu.edu.tr"
 __status__ = "Production"
 
 
+
+class lattice(object):
+    """
+    Defines the lattice object
+    This definition is strictly 3D.
+    I don't know any reason for it to be 4D and more, though it can be made.
+    """
+    def __init__(self,(vector_1,vector_2,vector_3),atoms_unit,strech=1):
+        
+        self.vectors_n_norm = num.array([vector_1,vector_2,vector_3])
+        
+        #Normalizes the bases vector.
+        self.vectors = [self.n_norm_vec/num.linalg.norm(self.n_norm_vec) 
+                        for self.n_norm_vec in self.vectors_n_norm]
+       
+        self.atoms_unit = atoms_unit
+        self.atoms_cartesian_unit = num.array([num.dot(atom_position,self.vectors) for 
+                           (atom_no,atom_position) in enumerate(self.atoms_unit)])
+
+        self.atoms = num.array([])
+        
+        for base in self.vectors:
+            for x_ctr in range(strech+1):
+                for y_ctr in range(strech+1): 
+                    for z_ctr in range(strech+1):
+                        for atom in self.atoms_cartesian_unit:
+                            newcomer = atom + num.array([x_ctr,y_ctr,z_ctr])*base
+                            num.append(newcomer,self.atoms)
+
+        self.atoms = num.array(self.atoms)
+    
+    def show(self):
+        figure = pylab.figure()
+        axes = Axes3D(figure)
+        axes.scatter(self.atoms[:,0],self.atoms[:,1],self.atoms[:,2])
+        plt.show()
+        
+    
 class ising_2d(object):
     """   
     This is the object for the system definitions of the 2d ising spin model.
@@ -144,3 +190,9 @@ class system(object):
     def compute_energy(self):
         """ Computes the energy of the state and appends it into the list"""
         self.energy.append(self.energy_def(self.state_indicator))   
+
+lattice_bases_fcc = (num.array([1,0,0]),num.array([0,1,0]),num.array([0,0,1]))
+atoms_fcc = num.array([[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
+                       [0.5,0.5,1],[0.5,1,0.5],[1,0,0],[0,1,0],[0,0,1],
+                       [1,1,0],[1,0,1],[0,1,1],[1,1,1]])
+fcc = lattice(lattice_bases_fcc, atoms_fcc,strech=2)
