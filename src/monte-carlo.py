@@ -28,36 +28,76 @@ __status__ = "Production"
 
 
 
-class lattice(object):
+class atomic_lattice(object):
     """
-    Defines the lattice object
-    This definition is strictly 3D.
-    I don't know any reason for it to be 4D and more, though it can be made.
+    Atomic Lattice class for Monty Carlo simulations
+        This object is meant to be a sole representative of a monatomic 
+        lattice class, in which all atoms incorporated will have the same 
+        structure.
     """
     def __init__(self,(vector_1,vector_2,vector_3),atoms_unit,strech=1):
+        """
+        Defines the lattice object
+        lattice((vector_1,vector_2,vector_3), atoms, strech = 1)
+                
+                (vector_1,vector_2,vector_3)
+            
+            These are the translational symmetry vectors that the unit cell will 
+            repeat itself. Their types can be a python list. 
         
+            Example:
+            
+            ([1,0,0],[0,1,0],[0,0,1]) 
+            
+            will create a lattice with the unit cell is a cube, 
+            and it repeats itself for all linear combinations
+            of these unit vectors.
+            
+                atoms
+            
+            This is a Python list of the coordinates of the atoms with respect to 
+            the coordinate system formed with (vector_1,vector_2,vector_3).
+            
+            An example may be:
+            
+            [[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
+            [0.5,0.5,1],[0.5,1,0.5],[1,0,0],[0,1,0],[0,0,1],
+            [1,1,0],[1,0,1],[0,1,1],[1,1,1]]
+            
+            which is the list for all atoms in a face centered cubic structure.
+        """
+        self.crystal_name = None
+        self.explanation = None
+        self.id
+        print "Initializing the unit cell.."
         self.vectors_n_norm = num.array([vector_1,vector_2,vector_3])
-        
         #Normalizes the bases vector.
         self.vectors = [self.n_norm_vec/num.linalg.norm(self.n_norm_vec) 
                         for self.n_norm_vec in self.vectors_n_norm]
        
-        self.atoms_unit = atoms_unit
+        self.atoms_unit = num.array(atoms_unit)
         self.atoms_cartesian_unit = num.array([num.dot(atom_position,self.vectors) for 
                            (atom_no,atom_position) in enumerate(self.atoms_unit)])
 
-        self.atoms = num.array([])
+        self.atoms = num.array([0,0,0])
         
-        for base in self.vectors:
-            for x_ctr in range(strech+1):
-                for y_ctr in range(strech+1): 
-                    for z_ctr in range(strech+1):
-                        for atom in self.atoms_cartesian_unit:
-                            newcomer = atom + num.array([x_ctr,y_ctr,z_ctr])*base
-                            num.append(newcomer,self.atoms)
-
-        self.atoms = num.array(self.atoms)
+        # list of all vectors that are linear superpositions of basis vectors
+        
+        symmetries = num.array([[x_ctr,y_ctr,z_ctr]
+                                for x_ctr in range(strech+1) 
+                                for y_ctr in range(strech+1) 
+                                for z_ctr in range(strech+1)])
+                        
+        print "  Done!"
+        print "Streching the crystal.."
     
+        for atom in self.atoms_cartesian_unit:
+            for symmetry_vec in symmetries:
+      
+                newcomer  = atom + symmetry_vec
+                self.atoms = num.vstack([self.atoms,newcomer])
+        print "  Done!"
+        
     def show(self):
         figure = pylab.figure()
         axes = Axes3D(figure)
@@ -191,8 +231,8 @@ class system(object):
         """ Computes the energy of the state and appends it into the list"""
         self.energy.append(self.energy_def(self.state_indicator))   
 
-lattice_bases_fcc = (num.array([1,0,0]),num.array([0,1,0]),num.array([0,0,1]))
-atoms_fcc = num.array([[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
+lattice_bases_fcc = ([1,0,0],[0,1,0],[0,0,1])
+atoms_fcc = [[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
                        [0.5,0.5,1],[0.5,1,0.5],[1,0,0],[0,1,0],[0,0,1],
-                       [1,1,0],[1,0,1],[0,1,1],[1,1,1]])
-fcc = lattice(lattice_bases_fcc, atoms_fcc,strech=2)
+                       [1,1,0],[1,0,1],[0,1,1],[1,1,1]]
+fcc = lattice(lattice_bases_fcc, atoms_fcc,strech=10)

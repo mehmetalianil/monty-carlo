@@ -25,4 +25,5 @@ __email__ = "anilm@itu.edu.tr"
 __status__ = "Production"
 
 if __name__ == '__main__':
-    profile.run('print mc.monte_carlo_2d(); print')
+    # If performance analysis will be made.
+    #profile.run('print mc.monte_carlo_2d(); print')
