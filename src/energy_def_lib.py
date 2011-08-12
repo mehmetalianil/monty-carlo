@@ -23,7 +23,7 @@ __credits__ = ["Mehmet Ali Anil"]
 __license__ = "GPL"
 __version__ = "0.0.1"
 __maintainer__ = "Mehmet Ali Anil"
-__email__ = "anilm@itu.edu.tr"
+__email__ = "mehmet.ali.anil@ieee.org"
 __status__ = "Production"
 
 def energy_ising_3d(state, type="closest", param={'symmetric_cont':-1, 

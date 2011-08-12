@@ -23,7 +23,7 @@ __credits__ = ["Mehmet Ali Anil"]
 __license__ = "GPL"
 __version__ = "0.0.1"
 __maintainer__ = "Mehmet Ali Anil"
-__email__ = "anilm@itu.edu.tr"
+__email__ = "mehmet.ali.anil@ieee.org"
 __status__ = "Production"
 
 
@@ -66,9 +66,9 @@ class atomic_lattice(object):
             
             which is the list for all atoms in a face centered cubic structure.
         """
-        self.crystal_name = None
+        
         self.explanation = None
-        self.id
+        
         print "Initializing the unit cell.."
         self.vectors_n_norm = num.array([vector_1,vector_2,vector_3])
         #Normalizes the bases vector.
@@ -98,10 +98,23 @@ class atomic_lattice(object):
                 self.atoms = num.vstack([self.atoms,newcomer])
         print "  Done!"
         
-    def show(self):
+    def show(self,unit=False):
+        """
+        Visualizes the structure of the crystal with an interactive 3d 
+        interface.
+        
+            unit = False:
+            
+            If true, will show the unit cell only.
+            
+        """
         figure = pylab.figure()
         axes = Axes3D(figure)
-        axes.scatter(self.atoms[:,0],self.atoms[:,1],self.atoms[:,2])
+        if unit:
+            axes.scatter(self.atoms_unit[:,0],self.atoms_unit[:,1],
+                         self.atoms_unit[:,2])
+        else:
+            axes.scatter(self.atoms[:,0],self.atoms[:,1],self.atoms[:,2])
         plt.show()
         
     
@@ -235,4 +248,4 @@ lattice_bases_fcc = ([1,0,0],[0,1,0],[0,0,1])
 atoms_fcc = [[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
                        [0.5,0.5,1],[0.5,1,0.5],[1,0,0],[0,1,0],[0,0,1],
                        [1,1,0],[1,0,1],[0,1,1],[1,1,1]]
-fcc = lattice(lattice_bases_fcc, atoms_fcc,strech=10)
+fcc = atomic_lattice(lattice_bases_fcc, atoms_fcc,strech=10)
