@@ -16,9 +16,9 @@ import matplotlib.pyplot as plt     # Plotting
 import profile                      # For performance analysis
 
 
-__author__ = "Mehmet Ali Anil"
+__author__ = "Mehmet Ali Anil, Ege Ozgun, Kivanc Esat, Deniz Gunceler"
 __copyright__ = ""
-__credits__ = ["Mehmet Ali Anil"]
+__credits__ = ["Mehmet Ali Anil", "Ege Ozgun", "Kivanc Esat", "Deniz Gunceler"]
 __license__ = "GPL"
 __version__ = "0.0.1"
 __maintainer__ = "Mehmet Ali Anil"
