@@ -2,6 +2,9 @@
 
 import atomic as a
 import numpy as num
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 Na = a.atom(atomic_no=11)
 Cl = a.atom(atomic_no=17)
@@ -44,6 +47,7 @@ Na14.position=num.array([0,1,0])
 
 list_of_atoms = [Na,Na2,Na3,Na4,Na5,Na6,Na7,Na8,Na9,Na10,Na11,Na12,Na13,Na14,
                  Cl2,Cl3,Cl4,Cl5,Cl6,Cl7,Cl8,Cl9,Cl10,Cl11,Cl12,Cl13]
+
 unit_vec = (num.array([1,0,0]),num.array([0,1,0]),num.array([0,0,1]))
 lat = a.lattice(unit_vec,list_of_atoms,strech=3)
 lat.show()
