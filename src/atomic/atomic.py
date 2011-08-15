@@ -96,7 +96,7 @@ class atomic_lattice(object):
         lattice class, in which all atoms incorporated will have the same 
         structure.
     """
-    def __init__(self,(vector_1,vector_2,vector_3),atoms_unit,strech=1):
+    def __init__(self,(vector_1,vector_2,vector_3),atoms_basis,strech=1):
         """
         Defines the lattice object
         lattice((vector_1,vector_2,vector_3), atoms, strech = 1)
@@ -129,10 +129,10 @@ class atomic_lattice(object):
                              for self.n_norm_vec in self.unit_vectors_not_norm]
         
         # atoms_cartesian_unit is a list of (num.array(x,y,z), atom)
-        self.atoms_unit = atoms_unit
+        self.atoms_basis = atoms_basis
         
-        self.atoms_cartesian_unit = [(num.dot(atom.position,self.unit_vectors),atom) 
-                                               for atom in self.atoms_unit]
+        self.atoms_unit = [(num.dot(atom.position,self.unit_vectors),atom) 
+                                               for atom in self.atoms_basis]
 
         self.atoms = []
         
