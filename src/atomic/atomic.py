@@ -2,16 +2,18 @@
 from __future__ import division
 
 
-"""Provides classes relating to MC statistics with atoms
+"""
+Provides classes relating to MC statistics with atoms
 """
 
+from objectdefs import *
 import matplotlib.pyplot as plt
 import copy
 import numpy as num
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 
-class particle (object):
+class particle (element):
     """Particle class, a representation of small particles
 	"""
     def __init__(self, type='p'):
@@ -23,7 +25,7 @@ class particle (object):
         new_particle = copy.copy(self)
         return new_particle 
  
-class atom(object):
+class atom(element):
     """Atom class, a representation of an atom.
     """
     def __init__(self, atomic_no = None):
@@ -116,7 +118,7 @@ class atom(object):
             print "e.g.  atom.position(num.array([0,0,0]))"
             
 
-class lattice(object):
+class lattice(state):
     """
     Atomic Lattice class for Monty Carlo simulations
         This object is meant to be a sole representative of a monatomic 
@@ -164,7 +166,7 @@ class lattice(object):
         
         # list of all vectors that are linear superpositions of basis vectors
         
-        symmetries = num.array([[x_ctr+1,y_ctr+1,z_ctr+1]
+        symmetries = num.array([[x_ctr,y_ctr,z_ctr]
                                 for x_ctr in range(strech) 
                                 for y_ctr in range(strech) 
                                 for z_ctr in range(strech)])
@@ -179,6 +181,7 @@ class lattice(object):
                 
                 newcomer_coordinate  = atom_coordinate + symmetry_vec
                 [newcomer] = atom.copy()
+                
                 if any(((newcomer_coordinate == coor).all() 
                         for coor in coordinates_only)):
                     print "WARNING: Duplicate coordinate, newcomer ignored."
@@ -195,7 +198,6 @@ class lattice(object):
         
         print "Streching the crystal.."
         
-                
         symmetries = num.array([[x_ctr,y_ctr,z_ctr]
                                 for x_ctr in range(strech+1) 
                                 for y_ctr in range(strech+1) 
@@ -209,6 +211,7 @@ class lattice(object):
                 self.atoms.append((newcomer_coordinate,newcomer))
                 
         print "  Done!"        
+        
     def show(self,unit=False):
         """
         Visualizes the structure of the crystal with an interactive 3d 
@@ -238,3 +241,4 @@ class lattice(object):
                              s=atom.radius)
         plt.show()
         
+    def prepare(self,):
