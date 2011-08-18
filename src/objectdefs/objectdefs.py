@@ -30,6 +30,12 @@ class action(object):
         self.actson_elements = None 
         self.language = None
         self.function = None
+        
+class system(object):
+    """
+    Definition of the system object.
+    
+    """
 
 
         
