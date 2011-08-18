@@ -34,8 +34,8 @@ class atom(object):
         self.charge = None
         self.magnetic_moment = None
         self.stable = True
-        self.position = num.array([0,0,0])
-        self.momentum = num.array([0,0,0])
+        self.position = num.array([0,0,0],dtype=float)
+        self.momentum = num.array([0,0,0],dtype=float)
         
         # Probability of decay per unit time 
         self.decay_prob = None
@@ -46,7 +46,7 @@ class atom(object):
         # A pseudo radius for close packing
         self.radius = None
         
-        # gives a color with respect to the atomic number
+        # COLOR
         
         if self.atomic_number == None:
             self.color = 'r'
@@ -72,6 +72,17 @@ class atom(object):
             self.proton = self.atomic_number
         else:
             print "The mass number or the atomic number is defined as null "
+            
+        # COLOR
+                
+        if self.atomic_number == None:
+            self.color = 'r'
+        else:
+            color_1 = (self.atomic_number % 7) / 6
+            color_2 = ((self.atomic_number / 7) % 7) / 6
+            color_3 = ((self.atomic_number / 7) / 7) / 6
+            self.color = (color_1 ,color_2 ,color_3)
+        
 
     def decay(self):
         """The atom undergoes a nuclear decay, as defined in __init__
@@ -82,6 +93,7 @@ class atom(object):
             print "Please define the atom as unstable first."
         else:
             print "Atom is undergoing decay."
+            
             self.atomic_number = self.atomic_number - self.decay_process[0]
             self.mass_number = self.mass_number - (self.decay_process[1] +
                                                     self.decay_process[0])
@@ -90,6 +102,19 @@ class atom(object):
             
             return radiation
         
+    def position(self,new_position):
+        """
+        Checks whether a valid position vector is defined for the atom and then 
+        assigns it.
+        """
+        if type(new_position) == list:
+            self.position = num.array(new_position).astype(float)
+        else:
+            print "There's something wrong with the assigned value for the"
+            print "position vector. Please assign it as a list or a numpy array."
+            print "e.g.  atom.position([0,0,0])"
+            print "e.g.  atom.position(num.array([0,0,0]))"
+            
 
 class lattice(object):
     """
@@ -106,7 +131,7 @@ class lattice(object):
                 (vector_1,vector_2,vector_3)
             
             These are the translational symmetry vectors that the unit cell will 
-            repeat itself. Their types can be a python list. 
+            repeat itself. Their types can be a Python list. 
         
             Example:
             
@@ -126,13 +151,12 @@ class lattice(object):
         print "Initializing the unit cell.."
         self.unit_vectors_not_norm = num.array([vector_1,vector_2,vector_3])
         
-        #Normalizes the bases vector.
+        # Normalizes the bass vectors.
         self.unit_vectors = [self.n_norm_vec/num.linalg.norm(self.n_norm_vec) 
                              for self.n_norm_vec in self.unit_vectors_not_norm]
         
-        # atoms_cartesian_unit is a list of (num.array(x,y,z), atom)
+        # atoms_unit is a list of (num.array(x,y,z), atom)
         self.atoms_basis = atoms_basis
-        
         self.atoms_unit = [(num.dot(atom.position,self.unit_vectors),atom) 
                                                for atom in self.atoms_basis]
 
