@@ -215,8 +215,5 @@ class system(object):
         """ Computes the energy of the state and appends it into the list"""
         self.energy.append(self.energy_def(self.state_indicator))   
 
-lattice_bases_fcc = ([1,0,0],[0,1,0],[0,0,1])
-atoms_fcc = [[0,0,0],[0,0.5,0.5],[0.5,0.5,0],[0.5,0,0.5],[1,0.5,0.5],
-                       [0.5,0.5,1],[0.5,1,0.5],[1,0,0],[0,1,0],[0,0,1],
-                       [1,1,0],[1,0,1],[0,1,1],[1,1,1]]
-fcc = atomic_lattice(lattice_bases_fcc, atoms_fcc,strech=10)
+
+

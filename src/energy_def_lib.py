@@ -1,12 +1,6 @@
 #! /usr/bin/env python
 
-'''
-Created on 15.05.2011
 
-@author: Mehmet Ali Anil
-
-
-'''
 
 import numpy as num
 import math
