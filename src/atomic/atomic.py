@@ -13,8 +13,10 @@ import numpy as num
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 
-class particle (element):
-    """Particle class, a representation of small particles
+
+class Particle (Element, *args, **kwargs):
+    """
+    Particle class, a representation of small particles
 	"""
     def __init__(self, type='p'):
         self.spin = None
@@ -25,8 +27,9 @@ class particle (element):
         new_particle = copy.copy(self)
         return new_particle 
  
-class atom(element):
-    """Atom class, a representation of an atom.
+class Atom(Element, *args, **kwargs):
+    """
+    Atom class, a representation of an atom.
     """
     def __init__(self, atomic_no = None):
         
@@ -118,7 +121,7 @@ class atom(element):
             print "e.g.  atom.position(num.array([0,0,0]))"
             
 
-class lattice(state):
+class Lattice(State, *args, **kwargs):
     """
     Atomic Lattice class for Monty Carlo simulations
         This object is meant to be a sole representative of a monatomic 
