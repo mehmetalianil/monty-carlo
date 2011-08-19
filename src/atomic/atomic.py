@@ -49,7 +49,6 @@ class atom(element):
         self.radius = None
         
         # COLOR
-        
         if self.atomic_number == None:
             self.color = 'r'
         else:
@@ -67,7 +66,8 @@ class atom(element):
         return atom_copy_list
     
     def reinit(self):
-        """Derived properties of the atom is reinitalized
+        """
+        Derived properties of the atom is reinitalized
         """
         if (self.mass_number != None and self.atomic_number != None):
             self.neutron = self.mass_number - self.atomic_number
@@ -240,5 +240,3 @@ class lattice(state):
                              c=atom.color,
                              s=atom.radius)
         plt.show()
-        
-    def prepare(self,):

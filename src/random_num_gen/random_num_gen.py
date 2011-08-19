@@ -6,6 +6,8 @@ Created on Aug 12, 2011
 
 import numpy as num
 import datetime
+import profile
+
 
 
 #class MyClass(object):
@@ -14,10 +16,10 @@ import datetime
 #    '''
 
 
-def random_number(k):      # for the ideal case one should choose k as large as 
-                           # possible lets say 12 at least, since we will have  
-                           # 2**(k-2) numbers between [0,1], inreasing k exponentially 
-                           # increases our sample of random numbers
+def random_number(k):       # for the ideal case one should choose k as large as 
+                            # possible lets say 12 at least, since we will have  
+                            # 2**(k-2) numbers between [0,1], inreasing k exponentially 
+                            # increases our sample of random numbers
     """
     generates a uniform list consisting of 
     2**(k-2) numbers in random order in the
@@ -66,12 +68,12 @@ def random_number(k):      # for the ideal case one should choose k as large as
         x[n+1] = (x[n] * rho) % (2**k)
 #        print x
     for n in range(2**(k-2)):
-        rand_num[n] = ( x[n] - ( x[n] % 4 ) ) / 4          # since all different x values are seperated
-        rand_num_normal[n] = rand_num[n] / (2**(k-2) -1)   # by an interval of 4, by this procedure
-                                                           # we generate all possible numbers between
-    return  rand_num_normal #,rand_num                     # [0,2**(k-2)) then by normalizing it
-                                                           # we obtain the uniform set of numbers
-                                                           # in the interval [0,1]
+        rand_num[n] = ( x[n] - ( x[n] % 4 ) ) / 4           # since all different x values are seperated
+        rand_num_normal[n] = rand_num[n] / (2**(k-2) -1)    # by an interval of 4, by this procedure
+                                                            # we generate all possible numbers between
+    return  rand_num_normal #,rand_num                      # [0,2**(k-2)) then by normalizing it
+                                                            # we obtain the uniform set of numbers
+                                                            # in the interval [0,1]
                 
 #        '''
 #        Constructor
@@ -79,7 +81,16 @@ def random_number(k):      # for the ideal case one should choose k as large as
 
 # Random Generator Trial
 
-print random_number(10)      # it's hard to see the result in the command window 
-                             # for k=12 so for the sake of illusturation k is
-                             # chosen to be 10 here
+                                # it's hard to see the result in the command window 
+                                # for k=12 so for the sake of illusturation k is
+                                # chosen to be 10 here
+def bigloop():
+    randoms = []
+    for stack in range(100):
+        randoms = num.append(randoms,random_number(15))
+        print stack
+    return randoms
+
+
+#profile.run('print bigloop(); print')
 
