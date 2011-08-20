@@ -372,3 +372,15 @@ class Lattice(State):
     def copy(self):
         new_lattice = copy.copy(self)
         return new_lattice
+    
+
+def ising_interaction_func(element,surroundings,self_contrib=1,surr_contrib=1):
+    energy = self_contrib * element.spin
+    for other_object in surroundings:
+        energy = energy + element.spin*other_object.spin*surr_contrib
+        
+ising_interaction = ElementalInteraction() 
+ising_interaction.function = ising_interaction_func()
+
+def ising_energy_def():
+    pass
