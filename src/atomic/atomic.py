@@ -13,12 +13,24 @@ import numpy as num
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 
+print_en = True
 
-class Particle (Element, *args, **kwargs):
+def print_en(selection):
+    """
+    Print enable function
+    """
+    global print_en
+    if selection:
+        print_en = True
+    else:
+        print_en = False
+        
+        
+class Particle (Element):
     """
     Particle class, a representation of small particles
 	"""
-    def __init__(self, type='p'):
+    def __init__(self, type='p', *args, **kwargs):
         self.spin = None
         self.energy = None
         self.type = type
@@ -27,11 +39,11 @@ class Particle (Element, *args, **kwargs):
         new_particle = copy.copy(self)
         return new_particle 
  
-class Atom(Element, *args, **kwargs):
+class Atom(Element):
     """
     Atom class, a representation of an atom.
     """
-    def __init__(self, atomic_no = None):
+    def __init__(self, atomic_no = None, *args, **kwargs):
         
         # initialization of an atom class
         self.atomic_number = atomic_no
@@ -49,7 +61,7 @@ class Atom(Element, *args, **kwargs):
         self.decay_process = [None, None, None]
         
         # A pseudo radius for close packing
-        self.radius = None
+        self.size = None
         
         # COLOR
         if self.atomic_number == None:
@@ -61,11 +73,10 @@ class Atom(Element, *args, **kwargs):
             self.color = (color_1 ,color_2 ,color_3)
             
     def copy(self,n=1):
-        """Copies an existing atom and returns a copy of it
         """
-        
+        Copies an existing atom and returns a copy of it
+        """
         atom_copy_list = [copy.copy(self) for n in range(n)]
-                
         return atom_copy_list
     
     def reinit(self):
@@ -120,15 +131,31 @@ class Atom(Element, *args, **kwargs):
             print "e.g.  atom.position([0,0,0])"
             print "e.g.  atom.position(num.array([0,0,0]))"
             
-
-class Lattice(State, *args, **kwargs):
+class AtomicConfiguration(State):
+    """
+    Atomic Configuration is a looser Lattice Class
+    in which the lattice symmetry is not mandatory.
+    """
+    def __init__(self,dim,*args,**kwargs):
+        """
+        Defines the Atomic Configuration Class
+        """
+        self.atoms = []
+        self.dim = dim
+        
+    def copy(self):
+        new_lattice = copy.copy(self)
+        return new_lattice
+        
+        
+class Lattice(State):
     """
     Atomic Lattice class for Monty Carlo simulations
         This object is meant to be a sole representative of a monatomic 
         lattice class, in which all atoms incorporated will have the same 
         structure.
     """
-    def __init__(self,(vector_1,vector_2,vector_3),atoms_basis,strech=1):
+    def __init__(self,vectors,atoms_basis,strech=1, *args, **kwargs):
         """
         Defines the lattice object
         lattice((vector_1,vector_2,vector_3), atoms, strech = 1)
@@ -152,11 +179,14 @@ class Lattice(State, *args, **kwargs):
         """
         
         self.explanation = None
+        self.dim = len(vectors)
         
-        print "Initializing the unit cell.."
-        self.unit_vectors_not_norm = num.array([vector_1,vector_2,vector_3])
+        if print_en:
+            print "Initializing the unit cell.."
         
-        # Normalizes the bass vectors.
+        self.unit_vectors_not_norm = num.array(vectors)
+        
+        # Normalizes the base vectors.
         self.unit_vectors = [self.n_norm_vec/num.linalg.norm(self.n_norm_vec) 
                              for self.n_norm_vec in self.unit_vectors_not_norm]
         
@@ -167,12 +197,20 @@ class Lattice(State, *args, **kwargs):
 
         self.atoms = []
         
-        # list of all vectors that are linear superpositions of basis vectors
-        
-        symmetries = num.array([[x_ctr,y_ctr,z_ctr]
-                                for x_ctr in range(strech) 
-                                for y_ctr in range(strech) 
-                                for z_ctr in range(strech)])
+        # list of all vectors that are linear super positions of basis vectors
+        if self.dim==3: 
+            symmetries = num.array([[x_ctr,y_ctr,z_ctr]
+                                    for x_ctr in range(strech) 
+                                    for y_ctr in range(strech) 
+                                    for z_ctr in range(strech)])
+        elif self.dim==2:
+            symmetries = num.array([[x_ctr,y_ctr]
+                                    for x_ctr in range(strech) 
+                                    for y_ctr in range(strech)])
+        elif self.dim==1:
+            symmetries = num.array([[x_ctr]
+                                    for x_ctr in range(strech)])
+            
         print symmetries
                         
         print "  Done!"
@@ -189,7 +227,8 @@ class Lattice(State, *args, **kwargs):
                         for coor in coordinates_only)):
                     print "WARNING: Duplicate coordinate, newcomer ignored."
                 else:
-                    self.atoms.append((newcomer_coordinate,newcomer))
+                    newcomer.coordiante = newcomer_coordinate
+                    self.atoms.append(newcomer)
                     coordinates_only.append(newcomer_coordinate)
                 
         print "  Done!"
@@ -198,23 +237,49 @@ class Lattice(State, *args, **kwargs):
         """
         Streches the crystal from scratch
         """
+        if print_en:
+            print "Streching the crystal.."
         
-        print "Streching the crystal.."
+        self.atoms = []
         
-        symmetries = num.array([[x_ctr,y_ctr,z_ctr]
-                                for x_ctr in range(strech+1) 
-                                for y_ctr in range(strech+1) 
-                                for z_ctr in range(strech+1)])
+        # list of all vectors that are linear superpositions of basis vectors
+        if self.dim==3: 
+            symmetries = num.array([[x_ctr,y_ctr,z_ctr]
+                                    for x_ctr in range(strech) 
+                                    for y_ctr in range(strech) 
+                                    for z_ctr in range(strech)])
+        elif self.dim==2:
+            symmetries = num.array([[x_ctr,y_ctr]
+                                    for x_ctr in range(strech) 
+                                    for y_ctr in range(strech)])
+        elif self.dim==1:
+            symmetries = num.array([[x_ctr]
+                                    for x_ctr in range(strech)])
+            
+        print symmetries
+        
+        if print_en:                
+            print "  Done!"
+            print "Streching the crystal.."
     
-        for (atom_coordinate, atom) in self.atoms_cartesian_unit:
+        coordinates_only = []
+        for (atom_coordinate, atom) in self.atoms_unit:
             for symmetry_vec in symmetries:
-      
-                newcomer_coordinate  = atom_coordinate + symmetry_vec
-                newcomer = atom.copy()
-                self.atoms.append((newcomer_coordinate,newcomer))
                 
-        print "  Done!"        
-        
+                newcomer_coordinate  = atom_coordinate + symmetry_vec
+                [newcomer] = atom.copy()
+                
+                if any(((newcomer_coordinate == coor).all() 
+                        for coor in coordinates_only)):
+                    if print_en:
+                        print "WARNING: Duplicate coordinate, newcomer ignored."
+                else:
+                    newcomer.coordinate = newcomer_coordinate
+                    self.atoms.append(newcomer)
+                    coordinates_only.append(newcomer_coordinate)
+        if print_en:           
+            print "  Done!"    
+            
     def show(self,unit=False):
         """
         Visualizes the structure of the crystal with an interactive 3d 
@@ -225,21 +290,85 @@ class Lattice(State, *args, **kwargs):
             If true, will show the unit cell only.
             
         """
-        figure = pylab.figure()
-        axes =Axes3D(figure)
-
-        if unit:
-            for (atom_coor , atom) in self.atoms_cartesian_unit:
-                axes.scatter3D(num.array([atom_coor[0]]),
-                             num.array([atom_coor[1]]),
-                             num.array([atom_coor[2]]),
-                             c=atom.color,
-                             s=atom.size)
-        else:
-            for (atom_coor , atom) in self.atoms:
-                axes.scatter3D(num.array([atom_coor[0]]),
-                             num.array([atom_coor[1]]),
-                             num.array([atom_coor[2]]),
-                             c=atom.color,
-                             s=atom.radius)
+        if self.dim == 3:
+            figure = pylab.figure()
+            axes = Axes3D(figure)
+                
+            if unit and self.unit != None :
+                for (atom_coor , atom) in self.atoms_unit:
+                    if hasattr(atom, 'color') and hasattr(atom, 'size'):
+                        plot_dict = {'c':atom.color,'s':atom.size}
+                    elif  hasattr(atom, 'size'): 
+                        plot_dict = {'s':atom.size}
+                    elif  hasattr(atom, 'color'):
+                        plot_dict = {'c':atom.color}
+                    else:
+                        plot_dict = {}
+                        
+                    axes.scatter3D(num.array([atom_coor[0]]),
+                                 num.array([atom_coor[1]]),
+                                 num.array([atom_coor[2]]),
+                                 **plot_dict)
+            elif not(unit):
+                for atom in self.atoms:
+                    if hasattr(atom, 'color') and hasattr(atom, 'size'):
+                        plot_dict = {'c':atom.color,'s':atom.size}
+                    elif  hasattr(atom, 'size'):
+                        plot_dict = {'s':atom.size}
+                    elif  hasattr(atom, 'color'):
+                        plot_dict = {'c':atom.color}
+                    else:
+                        plot_dict = {}
+                    
+                    axes.scatter3D(num.array([atom.position[0]]),
+                                 num.array([atom.position[1]]),
+                                 num.array([atom.position[2]]),
+                                 **plot_dict)
+        elif self.dim < 3:
+            figure = pylab.figure()
+    
+            if unit and self.unit != None:
+                for (atom_coor , atom) in self.atoms_unit:
+                    if hasattr(atom, 'color') and hasattr(atom, 'size'):
+                        plot_dict = {'c':atom.color,'s':atom.size}
+                    elif  hasattr(atom, 'size'):
+                        plot_dict = {'s':atom.size}
+                    elif  hasattr(atom, 'color'):
+                        plot_dict = {'c':atom.color}
+                    else:
+                        plot_dict = {}
+                    plt.scatter(num.array([atom_coor[0]]),
+                                 num.array([atom_coor[1]]),
+                                 **plot_dict)
+            elif not(unit):
+                for atom in self.atoms:
+                    if hasattr(atom, 'color') and hasattr(atom, 'size'):
+                        plot_dict = {'c':atom.color,'s':atom.size}
+                    elif  hasattr(atom, 'size'):
+                        plot_dict = {'s':atom.size}
+                    elif  hasattr(atom, 'color'):
+                        plot_dict = {'c':atom.color}
+                    else:
+                        plot_dict = {}
+                    plt.scatter(num.array([atom.position[0]]),
+                                 num.array([atom.position[1]]),
+                                 **plot_dict)
         plt.show()
+        
+    def merge(self, lattice_prim , lattice_sec, offset = [0,0,0]):
+        """
+        Merges two crystals with an offset for the second one.
+        """
+        dim = max(len(lattice_prim.dim),len(lattice_sec.dim),len(offset))
+        output_conf = AtomicConfiguration(dim)
+        lattice_prim_newatoms= lattice_prim.deepcopy().atoms
+        new_lattice = lattice_sec.deepcopy()
+        for atom in new_lattice:
+            atom.position = atom.position + offset
+        lattice_sec_newatoms= new_lattice.atoms
+        output_conf.atoms = lattice_prim_newatoms.append(lattice_sec_newatoms)
+        return output_conf
+    
+    def copy(self):
+        new_lattice = copy.copy(self)
+        return new_lattice

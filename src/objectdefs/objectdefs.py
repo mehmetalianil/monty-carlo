@@ -65,5 +65,5 @@ class EnergyDefinition (object):
     An enery definition needs an elemental interaction
     And a rule of whom are interacting.
     """
-    def __init__(self,elem_inter , rule, *args, **kwargs):
+    def __init__(self, elem_inter , rule, *args, **kwargs):
         pass

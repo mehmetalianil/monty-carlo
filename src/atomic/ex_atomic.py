@@ -6,10 +6,10 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 
-Na = a.atom(atomic_no=11)
-Cl = a.atom(atomic_no=17)
-Na.radius=25
-Cl.radius=40
+Na = a.Atom(atomic_no=11)
+Cl = a.Atom(atomic_no=17)
+Na.size=25
+Cl.size=40
 
 [Na2,Na3,Na4,Na5,Na6,Na7,Na8,Na9,Na10,Na11,Na12,Na13,Na14] = Na.copy(13)
 [Cl2,Cl3,Cl4,Cl5,Cl6,Cl7,Cl8,Cl9,Cl10,Cl11,Cl12,Cl13] = Cl.copy(12)
@@ -49,5 +49,5 @@ list_of_atoms = [Na,Na2,Na3,Na4,Na5,Na6,Na7,Na8,Na9,Na10,Na11,Na12,Na13,Na14,
                  Cl2,Cl3,Cl4,Cl5,Cl6,Cl7,Cl8,Cl9,Cl10,Cl11,Cl12,Cl13]
 
 unit_vec = (num.array([1,0,0]),num.array([0,1,0]),num.array([0,0,1]))
-lat = a.lattice(unit_vec,list_of_atoms,strech=3)
+lat = a.Lattice(unit_vec,list_of_atoms,strech=3)
 lat.show()
