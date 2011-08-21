@@ -3,11 +3,7 @@
 ***RIGHT NOW THE CODE IS FAR FROM BEING USABLE.
 IN THIS STAGE, IT IS STILL IN THE BRAINSTORMING PHASE, WITH MANY CLASSES AND FUNCTIONS SCATTERED AROUND.***
 
-![Monty Carlo Logo](http://www.ostracizedostrich.com/wp-content/uploads/2011/08/logo.png)
-
 Monty Carlo is a modular Monte Carlo engine, suitable for statistical systems. The subgroup of all  Monte Carlo algorithms that Monty Carlo will be affiliated with will be the ones that have the structure of a energy minimizing (or fitness maximizing) randomized repetitive process.
-
-![Lattice Initialization](https://github.com/monty-carlo/monty-carlo/blob/master/src/atomic/ex_atomic_lattice_fig.png?raw=true)
 
 In a clearer context, Monty Carlo will need,
 
@@ -24,5 +20,8 @@ as an addition to this chronological list of inputs, the algorithm may be custom
  * 2D and 3D Ising spin systems
  * 3D crystal spin systems
  * gaseous systems
+
+![Lattice Initialization](https://github.com/monty-carlo/monty-carlo/blob/master/src/atomic/ex_atomic_lattice_fig.png?raw=true)
+
 
 Monty Carlo gets the initial state as an input, then starts a randomized process. It takes a predefined change in the system, and calculates the energy difference for that change to occur for that condition. Then, it takes a random number, and checks the qualification criterion. If the process qualifies, this process is executed. Then it takes the next change, until all units of the state has undergone the same process. 
