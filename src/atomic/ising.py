@@ -18,4 +18,4 @@ ising_interaction = ElementalInteraction()
 ising_interaction.function = ising_interaction_func()
 
 def ising_energy_def():
-    
+    pass
