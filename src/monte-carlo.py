@@ -17,9 +17,9 @@ import profile                      # For performance analysis
 
 
 __author__ = "Mehmet Ali Anil, Ege Ozgun, Kivanc Esat, Deniz Gunceler"
-__copyright__ = ""
+ __copyright__ = "(C) 2011 Mehmet Ali Anil(mehmet.ali.anil@ieee.org)"
 __credits__ = ["Mehmet Ali Anil", "Ege Ozgun", "Kivanc Esat", "Deniz Gunceler"]
-__license__ = "GPL"
+__license__ = " "
 __version__ = "0.0.1"
 __maintainer__ = "Mehmet Ali Anil"
 __email__ = "mehmet.ali.anil@ieee.org"

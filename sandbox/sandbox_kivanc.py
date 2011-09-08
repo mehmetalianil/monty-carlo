@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 
 __author__ = "Kivanc Esat"
-__copyright__ = ""
+ __copyright__ = "(C) 2011 Mehmet Ali Anil(mehmet.ali.anil@ieee.org)"
 __credits__ = ["Kivanc Esat","Mehmet Ali Anil"]
-__license__ = "GPL"
+__license__ = " "
 __version__ = "0.0.1"
 __maintainer__ = "Kivanc Esat"
 __email__ = ""

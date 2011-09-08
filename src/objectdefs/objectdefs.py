@@ -59,6 +59,7 @@ class ElementalInteraction (object):
         self.explanation = "" 
         
         
+        
 class EnergyDefinition (object):
     """
     Class for energy definitions.
