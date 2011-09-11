@@ -2,7 +2,9 @@
 Object definitions for a general system in concern. 
 """
 
-class Element(object):
+import probes
+
+class Element(object,probes.probeable):
     """
     General definition of an element object.
     """
@@ -10,7 +12,7 @@ class Element(object):
         self.explanation = ""
         self.parameters = []
 
-class State(object):
+class State(object,probes.probeable):
     """
     Definition of the state object.
     """
@@ -19,7 +21,7 @@ class State(object):
         self.parameters = []
         self.constituents = None
         
-class Action(object):
+class Action(object,probes.probeable):
     """
     Definition of the action object.
     Encapsulates an action on a state.
@@ -31,14 +33,14 @@ class Action(object):
         self.language = None
         self.function = None
         
-class System(object):
+class System(object,probes.probeable):
     """
     Definition of the system object.
     """
     def __init__(self, *args, **kwargs):
         self.explanation = ""
 
-class Potential (object):
+class Potential (object,probes.probeable):
     """
     A potential class.
     Defined with the presence of two elements of the system.
@@ -46,7 +48,7 @@ class Potential (object):
     def __init__(self):
         self.explanation = ""
         
-class ElementalInteraction (object):
+class ElementalInteraction (object,probes.probeable):
     """
     A class for every interaction concerning two element-type objects
     """
@@ -60,7 +62,7 @@ class ElementalInteraction (object):
         
         
         
-class EnergyDefinition (object):
+class EnergyDefinition (object,probes.probeable):
     """
     Class for energy definitions.
     An enery definition needs an elemental interaction
