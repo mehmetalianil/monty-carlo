@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: Monty-Carlo
+Version: 0.1.0.dev
+Summary: Monty Carlo is a modular Monte Carlo engine, suitable for statistical systems.
+Home-page: http://github.com/monty-carlo/monty-carlo/
+Author: Mehmet Ali Anil
+Author-email: mehmet.ali.anil@ieee.org
+License: LICENSE.txt
+Description: UNKNOWN
+Keywords: monte carlo simulation statistical physics
+Platform: UNKNOWN
