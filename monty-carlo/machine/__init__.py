@@ -11,7 +11,7 @@ original_ensemble = ensemble
 
 
 MB=[]
-for beta in num.logspace(-2,2):
+for beta in num.linspace(0.1,3,100):
     M=[]
     params["beta"] = beta
     std= 1.0
