@@ -42,3 +42,6 @@ def machine(system):
                     print "    ["+str(ctr)+"]Standard Deviation: " + str(standard_dev)  
                     ctr = ctr + 1      
                 magnetization_beta.append(magnetization_list[-1])
+                
+                
+                
