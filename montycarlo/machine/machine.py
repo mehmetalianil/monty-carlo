@@ -4,7 +4,7 @@ Created on Aug 12, 2011
 @author: mali
 '''
 
-from objectdefs import *
+from montycarlo.objectdefs import *
 import numpy as num
 import pylab
 from mpl_toolkits.mplot3d import Axes3D

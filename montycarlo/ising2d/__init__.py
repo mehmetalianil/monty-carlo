@@ -1,4 +1,4 @@
-from objectdefs import *
+from montycarlo.objectdefs import *
 import logging
 import numpy as num
 import copy
@@ -35,7 +35,9 @@ def boltzmann_picker(energy_list,init_config, *args, **kwargs):
     else:
         minimum_index = num.argmin(energy_list)
         return minimum_index
-        
+    
+    
+
 class Spin(Element):
     def __init__(self, *args, **kwargs):
         self.states = [-1,1]
@@ -48,7 +50,7 @@ class ThreeSpin(Element):
 
 class FiveSpin(Element):
     def __init__(self, *args, **kwargs):
-        self.states = [-5,-1,0,1,5]
+        self.states = [-1,-0.5,0,0.5,1]
         Element.__init__(self,self.states)
             
 class SpinGlass (Ensemble):
@@ -105,6 +107,10 @@ class SpinGlass (Ensemble):
         plt.imshow(self.list_of_states(),cmap=plt.cm.gray,interpolation="nearest")
         plt.show()
         plt.draw()
+        
+    def save_plot(self,name):
+        plt.imshow(self.list_of_states(),cmap=plt.cm.gray,interpolation="nearest")
+        plt.savefig(name)
     
     def magnetization(self):
         return abs(num.mean(self.list_of_states()))

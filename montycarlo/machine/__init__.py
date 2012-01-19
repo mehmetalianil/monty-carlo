@@ -2,6 +2,7 @@ from objectdefs import *
 from ising2d import *
 import matplotlib.pylab as plt
 import time
+import os 
 
 params={"J":1,"H":0.0,"beta":0.2, "N":100,"spin_length":50,"error":0.001}
 
@@ -9,14 +10,18 @@ ensemble = ising_generate(params["spin_length"],**{"params":params})
 ensemble.picker = boltzmann_picker
 original_ensemble = ensemble
 
+os.mkdir("plots")
+os.chdir("plots")
 
 MB=[]
 for beta in num.linspace(0.1,3,100):
     M=[]
     params["beta"] = beta
     std= 1.0
+    ensemble.randomize()
     while std>params["error"] and len(M)<100:
         for counter in xrange(params["N"]):
+            
             element = ensemble.choose_element()
             init_config = element.state 
             #energies = []
@@ -37,6 +42,7 @@ for beta in num.linspace(0.1,3,100):
                 MB.append([beta,num.mean(M[-10:])])
                 print "For B = "+str(beta)
                 print "Magnetization = "+str(num.mean(M[-10:]))
-        
+                
+    ensemble.save_plot(str(beta)+".eps")
     
         
