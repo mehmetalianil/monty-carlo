@@ -116,8 +116,10 @@ class Chain(Ensemble):
             energy_cont = [kink[2]*init[2]/math.sqrt((kink[0]-init[0])**2 +(kink[1]-init[1])**2)  
                            for kink in without_init]
             for energy in energy_cont:
-                if energy > 1000:
-                    energy = 1000
+                if energy > 100:
+                    energy = 100
+                if energy < -100:
+                    energy = -100
             energy_coulomb = energy_coulomb + sum(energy_cont)
         return energy_coulomb
     
